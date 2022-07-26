@@ -42,7 +42,7 @@ public class Controller {
 
     @PostMapping("apikey")
     public void geraApiKey(){
-        String s = tokenService.geraToken();
-       System.out.println("O token é: " + s);
+       // String s = tokenService.geraToken();
+      // System.out.println("O token é: " + s);
     }
 }

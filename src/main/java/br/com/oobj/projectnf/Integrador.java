@@ -26,8 +26,10 @@ public class Integrador {
 
     }
     public void processa(String arquivo, LocalDateTime horaRequisicao) throws IOException {
+
         arquivoService.salvaNaPasta(arquivo, geraNomeArquivo(horaRequisicao), DIR_ENTRADA);
         enfileirador.enviaParaFila(geraNomeArquivo(horaRequisicao));
+
     }
 
     private String geraNomeArquivo(LocalDateTime horaRequisicao){

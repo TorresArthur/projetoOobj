@@ -29,6 +29,11 @@ public class ArquivoService {
             }
     }
 
+    public String retornaArquivosDaPasta(String diretorio, String nomeArquivo) throws IOException {
+        return new String(Files.readAllBytes(Paths.get(diretorio + nomeArquivo)));
+
+    }
+
     private Path geraPath(String diretorio, String nomeArquivo){
         return Paths.get(diretorio + nomeArquivo);
     }
