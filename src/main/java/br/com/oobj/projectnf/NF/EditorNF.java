@@ -64,6 +64,7 @@ public class EditorNF {
 
 
     public String geraNomeArquivoFinal(String s) {
-        return s.substring(0, 31) + "-retorno.txt";
+
+            return s.substring(0, 31) + "-retorno.txt";
     }
 }

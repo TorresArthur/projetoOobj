@@ -1,0 +1,14 @@
+API TOKEN:
+
+A api token foi gerada em um programa que criei a parte deste projeto. Aqui segue uma api token que pode ser utilizada, caso a banca queira testar a API com a parte de segurança:
+TOKEN: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJQcm9qZWN0TkYiLCJzdWIiOiJBUEktS2V5IiwiaWF0IjoxNjU5MTI2OTk1fQ.2ov30xfNd6tTfVaUnzpyjqOpvEKdDzdcq-91q40oQ_s
+No header Authorization é ncessário escrever Bearer antes do token
+
+
+VARIAVEIS:
+
+É necssário colocar como variáveis de ambiente as seguintes informações, de acordo com sua preferência:
+
+DIRETORIO_ENTRADA = diretório da pasta entrada em seu computador
+DIRETORIO_PROCESSADOS = diretorio da pasta de processados em seu computador
+DIRETORIO_ARQUIVOS_FINAIS = diretório da pasta onde ficarão os arquivos finais em seu computador
