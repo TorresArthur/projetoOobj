@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Service
-public class ArquivoService {
+public class ArquivoTextoService {
 
     public void salvaTextoNaPasta(String arquivoTexto, String nomeArquivo, String diretorio){
 
@@ -29,7 +29,7 @@ public class ArquivoService {
             }
     }
 
-    public String retornaArquivosDaPasta(String diretorio, String nomeArquivo) throws IOException {
+    public String retornaArquivosTextoDaPasta(String diretorio, String nomeArquivo) throws IOException {
         return new String(Files.readAllBytes(Paths.get(diretorio + nomeArquivo)));
 
     }

@@ -1,6 +1,7 @@
-package br.com.oobj.projectnf;
+package br.com.oobj.projectnf.NF;
 
-import br.com.oobj.projectnf.service.ArquivoService;
+import br.com.oobj.projectnf.NF.EditorNF;
+import br.com.oobj.projectnf.service.ArquivoTextoService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
@@ -22,11 +23,11 @@ public class Receiver {
 
     private final EditorNF editorNF;
 
-    private final ArquivoService arquivoService;
+    private final ArquivoTextoService arquivoService;
 
 
 
-    public Receiver(EditorNF editorNF, ArquivoService arquivoService){
+    public Receiver(EditorNF editorNF, ArquivoTextoService arquivoService){
         this.editorNF = editorNF;
         this.arquivoService = arquivoService;
     }

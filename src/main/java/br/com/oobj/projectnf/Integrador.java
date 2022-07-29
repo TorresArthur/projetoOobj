@@ -1,6 +1,8 @@
 package br.com.oobj.projectnf;
 
-import br.com.oobj.projectnf.service.ArquivoService;
+import br.com.oobj.projectnf.NF.EditorNF;
+import br.com.oobj.projectnf.NF.Enfileirador;
+import br.com.oobj.projectnf.service.ArquivoTextoService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,7 @@ import java.time.LocalDateTime;
 public class Integrador {
     private final EditorNF editorNF;
     private final Enfileirador enfileirador;
-    private final ArquivoService arquivoService;
+    private final ArquivoTextoService arquivoTextoService;
 
     @Value("${projectnf.diretorio.entrada}")
     private String DIR_ENTRADA;
@@ -20,18 +22,17 @@ public class Integrador {
     private String DIR_PROCESSADOS;
 
 
-    public Integrador(EditorNF editorNF, ArquivoService arquivoService, Enfileirador enfileirador){
+    public Integrador(EditorNF editorNF, ArquivoTextoService arquivoService, Enfileirador enfileirador){
         this.editorNF = editorNF;
         this.enfileirador = enfileirador;
-        this.arquivoService = arquivoService;
+        this.arquivoTextoService = arquivoService;
 
     }
     public void processaNF(String textoArquivo, LocalDateTime horaRequisicao) throws IOException {
 
-        arquivoService.salvaTextoNaPasta(textoArquivo, editorNF.geraNomeArquivo(horaRequisicao), DIR_ENTRADA);
+        arquivoTextoService.salvaTextoNaPasta(textoArquivo, editorNF.geraNomeArquivo(horaRequisicao), DIR_ENTRADA);
 
         enfileirador.enviaNFParaFila(editorNF.geraNomeArquivo(horaRequisicao));
-
 
 
     }

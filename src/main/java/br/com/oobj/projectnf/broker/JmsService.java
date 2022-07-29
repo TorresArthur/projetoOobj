@@ -3,17 +3,14 @@ package br.com.oobj.projectnf.broker;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class  ActiveMQService {
+public class JmsService {
 
     private final JmsTemplate jmsTemplate;
 
-    private List<String> mensagens = new ArrayList<>();
-
-    public ActiveMQService(JmsTemplate jmsTemplate) {
+    public JmsService(JmsTemplate jmsTemplate) {
         this.jmsTemplate = jmsTemplate;
     }
 
@@ -22,7 +19,6 @@ public class  ActiveMQService {
     }
 
     public synchronized void enviaListaDeMensagens(List<String> mensagens, String fila)  {
-            this.mensagens = mensagens;
             for (String mensagem : mensagens) {
                 jmsTemplate.convertAndSend(fila, mensagem);
         }

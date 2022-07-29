@@ -1,4 +1,4 @@
-package br.com.oobj.projectnf;
+package br.com.oobj.projectnf.NF;
 
 import org.springframework.stereotype.Component;
 

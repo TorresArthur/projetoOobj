@@ -1,4 +1,4 @@
-package br.com.oobj.projectnf;
+package br.com.oobj.projectnf.erro;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.ErrorHandler;

@@ -1,6 +1,6 @@
 package br.com.oobj.projectnf.broker;
 
-import br.com.oobj.projectnf.HandlerErros;
+import br.com.oobj.projectnf.erro.HandlerErros;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
@@ -16,7 +16,7 @@ import javax.jms.ConnectionFactory;
 
 @Configuration
 @EnableJms
-public class ActiveMQConfuguracao{
+public class JmsConfiguracao {
 
     @Value("${spring.activemq.broker-url}")
     private String brokerUrl;
