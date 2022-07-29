@@ -1,4 +1,4 @@
-package br.com.oobj.projectnf;
+package br.com.oobj.projectnf.broker;
 
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ActiveMQService {
+public class  ActiveMQService {
 
     private final JmsTemplate jmsTemplate;
 
@@ -21,17 +21,11 @@ public class ActiveMQService {
         jmsTemplate.convertAndSend(fila, mensagem);
     }
 
-    public void enviaListaDeMensagens(List<String> mensagens, String fila){
-
-        this.mensagens = mensagens;
-
-        for(String mensagem : mensagens){
-            jmsTemplate.convertAndSend(fila, mensagem);
+    public synchronized void enviaListaDeMensagens(List<String> mensagens, String fila)  {
+            this.mensagens = mensagens;
+            for (String mensagem : mensagens) {
+                jmsTemplate.convertAndSend(fila, mensagem);
         }
-    }
-
-    public Integer getQuantidadeMensagem(){
-       return mensagens.size();
     }
 
 }

@@ -1,16 +1,13 @@
 package br.com.oobj.projectnf;
 
+import br.com.oobj.projectnf.broker.ActiveMQService;
 import br.com.oobj.projectnf.service.ArquivoService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.jms.JMSException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class Enfileirador {
@@ -23,45 +20,30 @@ public class Enfileirador {
     @Value("${projectnf.diretorio.processados}")
     private String DIR_PROCESSADOS;
 
-    private final JmsTemplate jmsTemplate;
+    private final EditorNF editorNF;
     private final ArquivoService arquivoService;
     private final ActiveMQService activeMQService;
-    private final Receiver receiver;
 
-    public Enfileirador(ArquivoService arquivoService, JmsTemplate jmsTemplate, ActiveMQService activeMQService, Receiver receiver) throws JMSException {
+
+
+
+    public Enfileirador(EditorNF editorNF, ArquivoService arquivoService, ActiveMQService activeMQService) throws JMSException {
+        this.editorNF = editorNF;
         this.arquivoService = arquivoService;
-        this.jmsTemplate = jmsTemplate;
         this.activeMQService = activeMQService;
-        this.receiver = receiver;
     }
 
-    public void processaMensagem(){}
 
-    public void enviaParaFila(String nomeArquivo) throws IOException{
-    try {
-        List<String> dados = dividirArquivo(arquivoService.retornaArquivosDaPasta(DIR_ENTRADA, nomeArquivo));
+    public synchronized void enviaNFParaFila(String nomeArquivo) throws IOException {
 
-        receiver.recebeInformacoesMensagem(nomeArquivo);
+            List<String> dados = editorNF.dividirTextoNF(arquivoService.retornaArquivosDaPasta(DIR_ENTRADA, nomeArquivo));
 
-        activeMQService.enviaListaDeMensagens(dados,queue);
-        arquivoService.moveArquivo(nomeArquivo, DIR_ENTRADA, DIR_PROCESSADOS);
+            editorNF.adicionaFinalizadorDeNF(dados, nomeArquivo);
 
-    }catch (Exception e){
-        throw new NaoPodeSerLidoException("n pode ser lido");
-    }
+            activeMQService.enviaListaDeMensagens(dados, queue);
+
+            arquivoService.moveArquivo(nomeArquivo, DIR_ENTRADA, DIR_PROCESSADOS);
+
     }
 
-    public List<String> dividirArquivo(String arquivo) {
-        List<String> dados = new ArrayList<>();
-        AtomicReference<Integer> i = new AtomicReference<>(1);
-        if(arquivo.contains("25000;STAPLE_TOP_LEFT")) {
-            Arrays.asList(arquivo.split("25000;STAPLE_TOP_LEFT")).forEach(a -> {
-                String dado = a + "25000;STAPLE_TOP_LEFT";
-                dados.add(dado);
-                i.getAndSet(i.get() + 1);
-            });
-            return dados;
-        }
-        throw new NaoPodeSerLidoException("Arquivo não segue requisitos pré-estabelecidos. Por favor, verifique o arquivo e o envie novamente!");
-    }
 }

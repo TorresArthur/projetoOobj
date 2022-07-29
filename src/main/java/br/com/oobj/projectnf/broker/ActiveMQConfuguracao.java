@@ -1,5 +1,6 @@
 package br.com.oobj.projectnf.broker;
 
+import br.com.oobj.projectnf.HandlerErros;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
@@ -36,10 +37,12 @@ public class ActiveMQConfuguracao{
 
     @Bean
     public JmsListenerContainerFactory jmsFactoryTopic(ConnectionFactory connectionFactory,
-                                                       DefaultJmsListenerContainerFactoryConfigurer configurer) {
+                                                       DefaultJmsListenerContainerFactoryConfigurer configurer,
+                                                       HandlerErros handlerErros) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         configurer.configure(factory, connectionFactory);
         factory.setPubSubDomain(true);
+        factory.setErrorHandler(handlerErros);
         return factory;
     }
 

@@ -11,10 +11,10 @@ import java.nio.file.StandardCopyOption;
 @Service
 public class ArquivoService {
 
-    public void salvaNaPasta(String arquivo, String nomeArquivo, String diretorio){
+    public void salvaTextoNaPasta(String arquivoTexto, String nomeArquivo, String diretorio){
 
         try {
-            Files.write(geraPath(diretorio, nomeArquivo), arquivo.getBytes());
+            Files.write(geraPath(diretorio, nomeArquivo), arquivoTexto.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }

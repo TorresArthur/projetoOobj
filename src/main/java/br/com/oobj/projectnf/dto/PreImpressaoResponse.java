@@ -1,8 +1,8 @@
-package br.com.oobj.projectnf;
+package br.com.oobj.projectnf.dto;
 
 public class PreImpressaoResponse {
 
-    private boolean preImpressaoSolicitada;
+    private boolean preImpressaoSolicitada = false;
 
     public boolean isPreImpressaoSolicitada() {
         return preImpressaoSolicitada;
@@ -11,5 +11,7 @@ public class PreImpressaoResponse {
     public void setPreImpressaoSolicitada(boolean preImpressaoSolicitada) {
         this.preImpressaoSolicitada = preImpressaoSolicitada;
     }
+
+
 
 }

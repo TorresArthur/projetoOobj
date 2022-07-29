@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Service
 public class Integrador {
+    private final EditorNF editorNF;
     private final Enfileirador enfileirador;
     private final ArquivoService arquivoService;
 
@@ -20,20 +20,20 @@ public class Integrador {
     private String DIR_PROCESSADOS;
 
 
-    public Integrador(ArquivoService arquivoService, Enfileirador enfileirador){
+    public Integrador(EditorNF editorNF, ArquivoService arquivoService, Enfileirador enfileirador){
+        this.editorNF = editorNF;
         this.enfileirador = enfileirador;
         this.arquivoService = arquivoService;
 
     }
-    public void processa(String arquivo, LocalDateTime horaRequisicao) throws IOException {
+    public void processaNF(String textoArquivo, LocalDateTime horaRequisicao) throws IOException {
 
-        arquivoService.salvaNaPasta(arquivo, geraNomeArquivo(horaRequisicao), DIR_ENTRADA);
-        enfileirador.enviaParaFila(geraNomeArquivo(horaRequisicao));
+        arquivoService.salvaTextoNaPasta(textoArquivo, editorNF.geraNomeArquivo(horaRequisicao), DIR_ENTRADA);
+
+        enfileirador.enviaNFParaFila(editorNF.geraNomeArquivo(horaRequisicao));
+
+
 
     }
 
-    private String geraNomeArquivo(LocalDateTime horaRequisicao){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
-        return "pre-impressao-"+horaRequisicao.format(formatter)+".txt";
-    }
 }

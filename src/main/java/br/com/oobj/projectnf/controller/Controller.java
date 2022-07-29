@@ -1,7 +1,7 @@
 package br.com.oobj.projectnf.controller;
 
 import br.com.oobj.projectnf.Integrador;
-import br.com.oobj.projectnf.PreImpressaoResponse;
+import br.com.oobj.projectnf.dto.PreImpressaoResponse;
 import br.com.oobj.projectnf.service.TokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @RestController
 public class Controller {
@@ -25,24 +24,18 @@ public class Controller {
     }
 
     @PostMapping("/api/pre-impressao")
-    public ResponseEntity<PreImpressaoResponse> preImpressao(@RequestBody String arquivo) throws IOException {
+    public ResponseEntity<PreImpressaoResponse> preImpressao(@RequestBody(required = false) String textoArquivo) throws IOException {
+        PreImpressaoResponse preImpressaoResponse = new PreImpressaoResponse();
 
-        PreImpressaoResponse response = new PreImpressaoResponse();
+        try {
+            integrador.processaNF(textoArquivo, LocalDateTime.now());
 
-        if(Objects.equals(arquivo, "")){
-            response.setPreImpressaoSolicitada(false);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            preImpressaoResponse.setPreImpressaoSolicitada(true);
+            return ResponseEntity.ok(preImpressaoResponse);
 
-        }else{
-            integrador.processa(arquivo, LocalDateTime.now());
-            response.setPreImpressaoSolicitada(true);
-            return ResponseEntity.ok(response);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(preImpressaoResponse);
         }
     }
 
-    @PostMapping("apikey")
-    public void geraApiKey(){
-       // String s = tokenService.geraToken();
-      // System.out.println("O token é: " + s);
-    }
 }
